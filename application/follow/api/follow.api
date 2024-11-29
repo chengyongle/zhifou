@@ -1,0 +1,65 @@
+syntax = "v1"
+
+type (
+	FollowRequest {
+		UserId         int64 `json:"user_id"` // 关注者
+		FollowedUserId int64 `json:"followed_user_id"` // 被关注者
+	}
+	FollowResponse  {}
+	UnFollowRequest {
+		UserId         int64 `json:"user_id"` // 关注者
+		FollowedUserId int64 `json:"followed_user_id"` // 被关注者
+	}
+	UnFollowResponse  {}
+	FollowListRequest {
+		Id       int64 `json:"id"`
+		UserId   int64 `json:"user_id"`
+		Cursor   int64 `json:"cursor"`
+		PageSize int64 `json:"page_size"`
+	}
+	FollowItem {
+		Id             int64 `json:"id"`
+		FollowedUserId int64 `json:"followed_user_id"` // 被关注者
+		FansCount      int64 `json:"fans_count"` // 粉丝数
+		CreateTime     int64 `json:"create_time"` // 关注时间
+	}
+	FollowListResponse {
+		Items  []*FollowItem `json:"items"`
+		Cursor int64         `json:"cursor"`
+		IsEnd  bool          `json:"is_end"`
+		Id     int64         `json:"id"`
+	}
+	FansListRequest {
+		UserId   int64 `json:"user_id"`
+		Cursor   int64 `json:"cursor"`
+		PageSize int64 `json:"page_size"`
+	}
+	FansItem {
+		UserId     int64 `json:"user_id"`
+		FansUserId int64 `json:"fans_user_id"`
+		CreateTime int64 `json:"create_time"`
+	}
+	FansListResponse {
+		Items  []*FansItem `json:"items"`
+		Cursor int64       `json:"cursor"`
+	}
+)
+
+@server (
+	prefix: /v1/follow
+	jwt:    Auth // 指定使用JWT认证
+)
+service follow-api {
+	@handler FollowHandler
+	post /follow (FollowRequest) returns (FollowResponse)
+
+	@handler UnFollowHandler
+	post /unfollow (UnFollowRequest) returns (UnFollowResponse)
+
+	@handler FollowListHandler
+	get /follow/list (FollowListRequest) returns (FollowListResponse)
+
+	@handler FansListHandler
+	get /fans/list (FansListRequest) returns (FansListResponse)
+}
+

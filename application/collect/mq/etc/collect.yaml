@@ -1,0 +1,17 @@
+Name: collectmq
+
+DB:
+  DataSource: "root:123456@tcp(127.0.0.1:3306)/zhifou_collect?parseTime=true&loc=Local"
+  MaxIdleConns: 10
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600
+
+KqConsumerConf:
+  Name: collect-kq-consumer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: group-zhifou-collect
+  Topic: topic-zhifou-collect
+  Offset: last
+  Consumers: 1
+  Processors: 1

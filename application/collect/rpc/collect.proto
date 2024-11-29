@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package service;
+option go_package="./service";
+
+service Collect {
+  // 收藏
+  rpc Collect (CollectRequest) returns (CollectResponse);
+  // 取消收藏
+  rpc UnCollect (UnCollectRequest) returns (UnCollectResponse);
+  // 收藏列表
+  rpc CollectList (CollectListRequest) returns (CollectListResponse);
+}
+
+message CollectRequest {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 收藏对象id
+  int64 userId  = 3; // 用户id
+}
+
+message CollectResponse {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 收藏对象id
+}
+
+message UnCollectRequest {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 收藏对象id
+  int64 userId  = 3; // 用户id
+}
+
+message UnCollectResponse {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 收藏对象id
+}
+
+
+message CollectListRequest {
+  string bizId = 1; // 业务类型
+  int64 userId = 2;
+  int64 cursor = 3;
+  int64 pageSize = 4;
+  int64 lastObjId =5;
+}
+
+message CollectItem {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 收藏对象id
+  string collectTime = 3; // 收藏时间
+  int64 collectTimeUnix = 4;
+}
+
+message CollectListResponse {
+  repeated CollectItem items = 1;
+  string bizId = 2; // 业务类型
+  int64 cursor = 3;
+  bool isEnd = 4;
+  int64 lastId = 5;
+}
+

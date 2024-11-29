@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package service;
+option go_package="./service";
+
+// 评论服务定义
+service Comment {
+  // 创建评论
+  rpc CreateComment (CreateCommentRequest) returns (CreateCommentResponse);
+  // 删除评论
+  rpc DeleteComment (DeleteCommentRequest) returns (DeleteCommentResponse);
+  // 获取帖子的全部评论列表
+  rpc GetAllComments (GetAllCommentsRequest) returns (GetAllCommentsResponse);
+  // 获取帖子的根评论列表
+  rpc GetRootComments (GetRootCommentsRequest) returns (GetRootCommentsResponse);
+  // 获取评论的全部子评论列表
+  rpc GetChildComments (GetChildCommentsRequest) returns (GetChildCommentsResponse);
+  //
+}
+
+// 创建新评论请求
+message CreateCommentRequest {
+  string bizId = 1; // 业务ID
+  int64 objId = 2; // 评论目标ID
+  int64 commentUserId = 3; // 评论用户ID
+  int64 beCommentUserId=4;// 被评论用户ID
+  int64 parentId=5;//父评论ID
+  string content = 6; // 评论内容
+}
+
+// 创建新评论响应
+message CreateCommentResponse {
+  int64 commentId = 1; // 创建的评论ID
+}
+
+// 删除评论请求
+message DeleteCommentRequest {
+  int64 commentId = 1; // 评论ID
+  int64 commentUserId = 2; // 评论用户ID
+}
+
+// 删除评论响应
+message DeleteCommentResponse {
+  int64 commentId = 1; // 评论ID
+}
+
+
+// 评论结构
+message CommentItem {
+  int64 commentId = 1; // 评论ID
+  string bizId=2;  // 业务类型
+  int64 objId = 3; // 评论对象ID
+  int64 commentUserId = 4; // 发表评论的用户ID
+  int64 beCommentUserId = 5; // 被评论的用户ID
+  int64 parentId = 6; // 父评论ID
+  string content = 7; // 评论内容
+  int64 likeNum = 8; // 点赞数
+  string createTime = 9; // 创建时间
+  int64 createTimeUnix = 10; // 创建时间unix
+}
+
+
+// 获取全部评论列表
+message GetAllCommentsRequest {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 要获取评论的目标ID
+  int64 userId = 3; //用户ID
+  int64 parentId =4;//父评论ID
+  int32 sortType = 5;//排序类型
+  int64 cursor = 6;//游标
+  int64 pageSize = 7;//每页显示大小
+  int64 lastObjId =8;//上次获取的最后一条评论的ID
+}
+
+//获取评论响应
+message GetAllCommentsResponse {
+  repeated CommentItem comments = 1; // 评论列表
+  string bizId = 2; // 业务类型
+  bool isEnd = 3; //是否最后一页
+  int64 cursor = 4; //末尾游标
+  int64 lastId = 5;//末尾ID
+}
+
+// 获取帖子的根评论列表
+message GetRootCommentsRequest {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 要获取评论的目标ID
+  int64 userId = 3; //用户ID
+  int64 parentId =4;//父评论ID
+  int32 sortType = 5;//排序类型
+  int64 cursor = 6;//游标
+  int64 pageSize = 7;//每页显示大小
+  int64 lastObjId =8;//上次获取的最后一条评论的ID
+}
+
+
+message GetRootCommentsResponse {
+  repeated CommentItem comments = 1; // 评论列表
+  string bizId = 2; // 业务类型
+  bool isEnd = 3; //是否最后一页
+  int64 cursor = 4; //末尾游标
+  int64 lastId = 5;//末尾ID
+}
+
+// 获取评论的全部子评论列表
+message GetChildCommentsRequest {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 要获取评论的目标ID
+  int64 userId = 3; //用户ID
+  int64 parentId =4;//父评论ID
+  int32 sortType = 5;//排序类型
+  int64 cursor = 6;//游标
+  int64 pageSize = 7;//每页显示大小
+  int64 lastObjId =8;//上次获取的最后一条评论的ID
+}
+
+
+message GetChildCommentsResponse {
+  repeated CommentItem comments = 1; // 评论列表
+  string bizId = 2; // 业务类型
+  bool isEnd = 3; //是否最后一页
+  int64 cursor = 4; //末尾游标
+  int64 lastId = 5;//末尾ID
+}

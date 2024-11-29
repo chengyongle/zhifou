@@ -1,0 +1,19 @@
+Name: comment.rpc
+ListenOn: 0.0.0.0:9191
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: comment.rpc
+DataSource: root:123456@tcp(127.0.0.1:3306)/zhifou_comment?parseTime=true&loc=Local
+CacheRedis:
+  - Host: 127.0.0.1:6379
+    Pass: "123456"
+    Type: node
+BizRedis:
+  Host: 127.0.0.1:6379
+  Pass: "123456"
+  Type: node
+KqPusherConf:
+  Brokers:
+    - 127.0.0.1:9092
+  Topic: topic-zhifou-comment

@@ -1,0 +1,35 @@
+syntax = "v1"
+
+type (
+	ThumbupRequest {
+		BizId  string `json:"biz_id"` // 业务类型
+		ObjId  int64  `json:"obj_id"` // 点赞对象id
+		UserId int64  `json:"user_id"` // 用户id
+	}
+	ThumbupResponse {
+		BizId string `json:"biz_id"` // 业务类型
+		ObjId int64  `json:"obj_id"` // 点赞对象id
+	}
+	UnThumbupRequest {
+		BizId  string `json:"biz_id"` // 业务类型
+		ObjId  int64  `json:"obj_id"` // 点赞对象id
+		UserId int64  `json:"user_id"` // 用户id
+	}
+	UnThumbupResponse {
+		BizId string `json:"biz_id"` // 业务类型
+		ObjId int64  `json:"obj_id"` // 点赞对象id
+	}
+)
+
+@server (
+	prefix: /v1/like
+	jwt:    Auth // 指定使用JWT认证
+)
+service like-api {
+	@handler ThumbupHandler
+	post /thumbup (ThumbupRequest) returns (ThumbupResponse)
+
+	@handler UnThumbupHandler
+	post /unthumbup (UnThumbupRequest) returns (UnThumbupResponse)
+}
+

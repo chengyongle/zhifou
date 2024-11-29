@@ -1,0 +1,19 @@
+Name: collect.rpc
+ListenOn: 0.0.0.0:8989
+DB:
+  DataSource: "root:123456@tcp(127.0.0.1:3306)/zhifou_collect?parseTime=true&loc=Local"
+  MaxIdleConns: 10
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: collect.rpc
+BizRedis:
+  Host: 127.0.0.1:6379
+  Pass: "123456"
+  Type: node
+KqPusherConf:
+  Brokers:
+    - 127.0.0.1:9092
+  Topic: topic-zhifou-collect

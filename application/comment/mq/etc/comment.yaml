@@ -1,0 +1,12 @@
+Name: comment-mq
+
+CommentLikeKqConsumerConf:
+  Name: CommentLikeNum-kq-consumer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: group-comment-likecount
+  Topic: topic-comment-likecount
+  Offset: last
+  Consumers: 1
+  Processors: 1
+Datasource: root:123456@tcp(127.0.0.1:3306)/zhifou_comment?parseTime=true

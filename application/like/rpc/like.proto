@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package service;
+option go_package="./service";
+
+service Like {
+  rpc Thumbup(ThumbupRequest) returns (ThumbupResponse);
+  rpc UnThumbup(UnThumbupRequest) returns (UnThumbupResponse);
+}
+
+message ThumbupRequest {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 点赞对象id
+  int64 userId  = 3; // 用户id
+}
+
+message ThumbupResponse {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 点赞对象id
+}
+
+message UnThumbupRequest {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 点赞对象id
+  int64 userId  = 3; // 用户id
+}
+
+message UnThumbupResponse {
+  string bizId = 1; // 业务类型
+  int64 objId = 2; // 点赞对象id
+}

@@ -1,0 +1,63 @@
+Name: mq
+LikeKqConsumerConf:
+  Name: LikeCount-kq-consumer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: group-like-count
+  Topic: topic-like-count
+  Offset: last
+  Consumers: 1
+  Processors: 1
+ArticleKqConsumerConf:
+  Name: article-kq-consumer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: group-article-event
+  Topic: topic-article-event
+  Offset: last
+  Consumers: 1
+  Processors: 1
+CollectKqConsumerConf:
+  Name: CollectCount-kq-consumer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: group-collect-count
+  Topic: topic-collect-count
+  Offset: last
+  Consumers: 1
+  Processors: 1
+CommentKqConsumerConf:
+  Name: CommentNum-kq-consumer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: group-comment-count
+  Topic: topic-comment-count
+  Offset: last
+  Consumers: 1
+  Processors: 1
+CommentLikeKqPusherConf:
+  Brokers:
+    - 127.0.0.1:9092
+  Topic: topic-comment-likecount
+Datasource: root:123456@tcp(127.0.0.1:3306)/zhifou_article?parseTime=true
+BizRedis:
+  Host: 127.0.0.1:6379
+  Pass: "123456"
+  Type: node
+Es:
+  Addresses:
+    - http://localhost:9200
+  Username: elastic
+  Password: iMHyCwO6ei6Rn4S4lYOZ
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9101
+  Path: /metrics
+Telemetry:
+  Endpoint: http://127.0.0.1:14268/api/traces
+UserRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+  NonBlock: true

@@ -1,0 +1,58 @@
+syntax = "v1"
+
+type (
+	CollectRequest {
+		BizId  string `json:"biz_id"` // 业务类型
+		ObjId  int64  `json:"obj_id"` // 收藏对象id
+		UserId int64  `json:"user_id"` // 用户id
+	}
+	CollectResponse {
+		BizId string `json:"biz_id"` // 业务类型
+		ObjId int64  `json:"obj_id"` // 收藏对象id
+	}
+	UnCollectRequest {
+		BizId  string `json:"biz_id"` // 业务类型
+		ObjId  int64  `json:"obj_id"` // 收藏对象id
+		UserId int64  `json:"user_id"` // 用户id
+	}
+	UnCollectResponse {
+		BizId string `json:"biz_id"` // 业务类型
+		ObjId int64  `json:"obj_id"` // 收藏对象id
+	}
+	CollectListRequest {
+		BizId     string `json:"biz_id"` // 业务类型
+		UserId    int64  `json:"user_id"`
+		Cursor    int64  `json:"cursor"`
+		PageSize  int64  `json:"page_size"`
+		LastObjId int64  `json:"last_obj_id"`
+	}
+	CollectItem {
+		BizId           string `json:"biz_id"` // 业务类型
+		ObjId           int64  `json:"obj_id"` // 收藏对象id
+		CollectTime     string `json:"collect_time"` // 收藏时间
+		CollectTimeUnix int64  `json:"collect_time_unix"`
+	}
+	CollectListResponse {
+		Items  []*CollectItem `json:"items"`
+		BizId  string         `json:"biz_id"` // 业务类型
+		Cursor int64          `json:"cursor"`
+		IsEnd  bool           `json:"is_end"`
+		LastId int64          `json:"last_id"`
+	}
+)
+
+@server (
+	prefix: /v1/collect
+	jwt:    Auth // 指定使用JWT认证
+)
+service collect-api {
+	@handler CollectHandler
+	post /collect (CollectRequest) returns (CollectResponse)
+
+	@handler UnCollectHandler
+	post /uncollect (UnCollectRequest) returns (UnCollectResponse)
+
+	@handler CollectListHandler
+	get /list (CollectListRequest) returns (CollectListResponse)
+}
+

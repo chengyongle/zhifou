@@ -1,0 +1,22 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8765
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: user.rpc
+DataSource: root:123456@tcp(127.0.0.1:3306)/zhifou?parseTime=true
+CacheRedis:
+  - Host: 127.0.0.1:6379
+    Pass: "123456"
+    Type: node
+BizRedis:
+  Host: 127.0.0.1:6379
+  Pass: "123456"
+  Type: node
+Consul:
+  Host: 127.0.0.1:8500
+  Key: user-rpc
+  Meta:
+    env: test
+    service_group: zhifou
+    service_name: user-rpc

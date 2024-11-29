@@ -1,0 +1,107 @@
+syntax = "v1"
+
+type (
+	CreateCommentRequest {
+		BizId           string `json:"biz_id"` // 业务ID
+		ObjId           int64  `json:"obj_id"` // 评论目标ID
+		CommentUserId   int64  `json:"comment_user_id"` // 评论用户ID
+		BeCommentUserId int64  `json:"be_comment_user_id"` // 被评论用户ID
+		ParentId        int64  `json:"parent_id"` // 父评论ID
+		Content         string `json:"content"` // 评论内容
+	}
+	CreateCommentResponse {
+		CommentId int64 `json:"comment_id"` // 创建的评论ID
+	}
+	DeleteCommentRequest {
+		CommentId     int64 `json:"comment_id"` // 评论ID
+		CommentUserId int64 `json:"comment_user_id"` // 评论用户ID
+	}
+	DeleteCommentResponse {
+		CommentId int64 `json:"comment_id"` // 评论ID
+	}
+	CommentItem {
+		CommentId       int64  `json:"comment_id"` // 评论ID
+		BizId           string `json:"biz_id"` // 业务类型
+		ObjId           int64  `json:"obj_id"` // 评论对象ID
+		CommentUserId   int64  `json:"comment_user_id"` // 发表评论的用户ID
+		BeCommentUserId int64  `json:"be_comment_user_id"` // 被评论的用户ID
+		ParentId        int64  `json:"parent_id"` // 父评论ID
+		Content         string `json:"content"` // 评论内容
+		LikeNum         int64  `json:"like_num"` // 点赞数
+		CreateTime      string `json:"create_time"` // 创建时间
+		CreateTimeUnix  int64  `json:"create_time_unix"` // 创建时间unix
+	}
+	GetAllCommentsRequest {
+		BizId     string `json:"biz_id"` // 业务类型
+		ObjId     int64  `json:"obj_id"` // 要获取评论的目标ID
+		UserId    int64  `json:"user_id"` // 用户ID
+		ParentId  int64  `json:"parent_id"` // 父评论ID
+		SortType  int32  `json:"sort_type"` // 排序类型
+		Cursor    int64  `json:"cursor"` // 游标
+		PageSize  int64  `json:"page_size"` // 每页显示大小
+		LastObjId int64  `json:"last_obj_id"` // 上次获取的最后一条评论的ID
+	}
+	GetAllCommentsResponse {
+		Comments []*CommentItem `json:"comments"` // 评论列表
+		BizId    string         `json:"biz_id"` // 业务类型
+		IsEnd    bool           `json:"is_end"` // 是否最后一页
+		Cursor   int64          `json:"cursor"` // 末尾游标
+		LastId   int64          `json:"last_id"` // 末尾ID
+	}
+	GetRootCommentsRequest {
+		BizId     string `json:"biz_id"` // 业务类型
+		ObjId     int64  `json:"obj_id"` // 要获取评论的目标ID
+		UserId    int64  `json:"user_id"` // 用户ID
+		ParentId  int64  `json:"parent_id"` // 父评论ID
+		SortType  int32  `json:"sort_type"` // 排序类型
+		Cursor    int64  `json:"cursor"` // 游标
+		PageSize  int64  `json:"page_size"` // 每页显示大小
+		LastObjId int64  `json:"last_obj_id"` // 上次获取的最后一条评论的ID
+	}
+	GetRootCommentsResponse {
+		Comments []*CommentItem `json:"comments"` // 评论列表
+		BizId    string         `json:"biz_id"` // 业务类型
+		IsEnd    bool           `json:"is_end"` // 是否最后一页
+		Cursor   int64          `json:"cursor"` // 末尾游标
+		LastId   int64          `json:"last_id"` // 末尾ID
+	}
+	GetChildCommentsRequest {
+		BizId     string `json:"biz_id"` // 业务类型
+		ObjId     int64  `json:"obj_id"` // 要获取评论的目标ID
+		UserId    int64  `json:"user_id"` // 用户ID
+		ParentId  int64  `json:"parent_id"` // 父评论ID
+		SortType  int32  `json:"sort_type"` // 排序类型
+		Cursor    int64  `json:"cursor"` // 游标
+		PageSize  int64  `json:"page_size"` // 每页显示大小
+		LastObjId int64  `json:"last_obj_id"` // 上次获取的最后一条评论的ID
+	}
+	GetChildCommentsResponse {
+		Comments []*CommentItem `json:"comments"` // 评论列表
+		BizId    string         `json:"biz_id"` // 业务类型
+		IsEnd    bool           `json:"is_end"` // 是否最后一页
+		Cursor   int64          `json:"cursor"` // 末尾游标
+		LastId   int64          `json:"last_id"` // 末尾ID
+	}
+)
+
+@server (
+	prefix: /v1/comment
+	jwt:    Auth // 指定使用JWT认证
+)
+service comment-api {
+	@handler CreateCommentHandler
+	post /create (CreateCommentRequest) returns (CreateCommentResponse)
+
+	@handler DeleteCommentHandler
+	post /delete (DeleteCommentRequest) returns (DeleteCommentResponse)
+
+	@handler GetAllCommentsHandler
+	get /all (GetAllCommentsRequest) returns (GetAllCommentsResponse)
+
+	@handler GetRootCommentsHandler
+	get /root (GetRootCommentsRequest) returns (GetRootCommentsResponse)
+
+	@handler GetChildCommentsHandler
+	get /child (GetChildCommentsRequest) returns (GetChildCommentsResponse)
+}
+

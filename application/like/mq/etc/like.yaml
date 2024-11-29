@@ -1,0 +1,17 @@
+Name: likemq
+DB:
+  DataSource: "root:123456@tcp(127.0.0.1:3306)/zhifou_like?parseTime=true&loc=Local"
+  MaxIdleConns: 10
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600
+
+
+KqConsumerConf:
+  Name: like-kq-consumer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: group-zhifou-like
+  Topic: topic-zhifou-like
+  Offset: last
+  Consumers: 1
+  Processors: 1
